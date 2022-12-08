@@ -1,0 +1,33 @@
+version: "3.7"
+
+# there ar 2 services (containers) as database (mysql) and myapp (my application)
+services:
+
+  database:
+    image: mysql:5.7
+    container_name: database
+    environment:
+      # according to documentation we need to ente a root password for database
+      MYSQL_ROOT_PASSWORD: 1234567
+      MYSQL_DATABASE: bookstore_db  
+      MYSQL_USER: clarusway
+      MYSQL_PASSWORD: Clarusway_1
+    networks:
+      - clarusnet
+
+  myapp:
+    image: bookstore-api:latest
+    container_name: myapp
+    restart: always
+    depends_on: 
+      - database
+    ports:
+      - "80:80"
+    networks:
+      - clarusnet
+
+
+# here we define user defined network
+networks:
+  clarusnet:
+  
